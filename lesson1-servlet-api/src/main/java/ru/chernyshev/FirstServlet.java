@@ -3,7 +3,7 @@ package ru.chernyshev;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
-@WebServlet(urlPatterns = "/")
+@WebServlet(urlPatterns = "/firstServlet")
 public class FirstServlet implements Servlet {
 
     private ServletConfig servletConfig;
