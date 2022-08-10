@@ -14,4 +14,8 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <modules>
+        <module>lesson1-servlet-api</module>
+    </modules>
+
 </project>
