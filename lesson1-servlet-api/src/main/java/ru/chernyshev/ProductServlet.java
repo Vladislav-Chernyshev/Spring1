@@ -18,17 +18,7 @@ public class ProductServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.productRepository = new ProductRepository();
-        this.productRepository.insert(new Product("Хлеб", 35.00));
-        this.productRepository.insert(new Product("Сыр", 600.00));
-        this.productRepository.insert(new Product("Молоко", 100.00));
-        this.productRepository.insert(new Product("Кефир", 120.00));
-        this.productRepository.insert(new Product("Сигареты", 200.00));
-        this.productRepository.insert(new Product("Шоколад", 100.00));
-        this.productRepository.insert(new Product("Печенье", 60.00));
-        this.productRepository.insert(new Product("Кофе", 200.00));
-        this.productRepository.insert(new Product("Картофель", 75.00));
-        this.productRepository.insert(new Product("Мука", 80.00));
+        this.productRepository = (ProductRepository) getServletContext().getAttribute("productRepository");
     }
 
     @Override
