@@ -1,14 +1,16 @@
-package ru.chernyshev.products;
+package ru.chernyshev.persist;
 
-public class Product {
+public class User {
 
     private Long id;
     private String title;
-    private double cost;
+    private String role;
 
-    public Product(String title, double cost) {
+
+    public User(String title, String role) {
         this.title = title;
-        this.cost = cost;
+        this.role = role;
+
     }
 
     public Long getId() {
@@ -27,11 +29,11 @@ public class Product {
         this.title = title;
     }
 
-    public double getCost() {
-        return cost;
+    public String getRole() {
+        return role;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

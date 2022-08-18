@@ -1,4 +1,4 @@
-package ru.chernyshev.products;
+package ru.chernyshev.persist;
 
 import java.util.ArrayList;
 import java.util.List;
