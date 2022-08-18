@@ -1,7 +1,7 @@
 package ru.chernyshev;
 
-import ru.chernyshev.products.Product;
-import ru.chernyshev.products.ProductRepository;
+import ru.chernyshev.persist.Product;
+import ru.chernyshev.persist.ProductRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
