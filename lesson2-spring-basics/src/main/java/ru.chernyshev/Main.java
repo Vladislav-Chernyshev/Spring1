@@ -62,9 +62,13 @@ public class Main {
                 case (2) -> {
                     System.out.println("Введите ID товара для удаления из корзины: ");
                     int id2 = scanner.nextInt();
-                    cartService.delete(id2);
-                    System.out.println("Товар удален из корзины.");
-                    System.out.println("--------------------------");
+                    if (cartService.findById(id2) == null){
+                        System.out.println("Данного товара нет в корзине.");
+                    }else {
+                        cartService.delete(id2);
+                        System.out.println("Товар удален из корзины.");
+                        System.out.println("--------------------------");
+                    }
                 }
             }
             if (number == 3){
