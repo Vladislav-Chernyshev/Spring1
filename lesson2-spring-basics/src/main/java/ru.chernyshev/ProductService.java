@@ -10,12 +10,10 @@ import java.util.List;
 @Service
 public class ProductService {
 
-
-    private final ProductRepositoryImpl productRepository;
     @Autowired
-    public ProductService(ProductRepositoryImpl productRepository) {
-        this.productRepository = productRepository;
-    }
+    private ProductRepositoryImpl productRepository;
+
+
 
     public void insert(Product product){
         productRepository.insert(product);

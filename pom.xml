@@ -10,13 +10,26 @@
     <packaging>pom</packaging>
 
     <properties>
+        <spring.version>5.3.22</spring.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+<!--        <project.build.sourceEncoding>UFT-8</project.build.sourceEncoding>-->
     </properties>
 
     <modules>
         <module>lesson1-servlet-api</module>
         <module>lesson2-spring-basics</module>
+        <module>lesson3-spring-mvc</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
 
 </project>
