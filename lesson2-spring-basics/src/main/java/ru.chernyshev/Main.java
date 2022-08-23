@@ -42,15 +42,16 @@ public class Main {
         productService.insert(new Product("Рыба", 300.00));
 
         Scanner scanner = new Scanner(System.in);
-        while (true){
+        while (true) {
             choice();
+           if (scanner.hasNextInt()){
             int number = scanner.nextInt();
             switch (number) {
                 case (1) -> {
                     System.out.println("Введите ID товара для добавления в корзину: ");
                     int id1 = scanner.nextInt();
 
-                    if (isItPossibleToAdd(cartService, id1)){
+                    if (isItPossibleToAdd(cartService, id1)) {
                         cartService.insert(id1);
                         System.out.println("Товар добавлен в корзину.");
                         System.out.println("--------------------------");
@@ -62,19 +63,24 @@ public class Main {
                 case (2) -> {
                     System.out.println("Введите ID товара для удаления из корзины: ");
                     int id2 = scanner.nextInt();
-                    cartService.delete(id2);
-                    System.out.println("Товар удален из корзины.");
-                    System.out.println("--------------------------");
+                    if (cartService.findById(id2) == null) {
+                        System.out.println("Данного товара нет в корзине.");
+                    } else {
+                        cartService.delete(id2);
+                        System.out.println("Товар удален из корзины.");
+                        System.out.println("--------------------------");
+                    }
                 }
             }
-            if (number == 3){
+            if (number == 3) {
                 System.out.println("Вы закончили работу с корзиной.");
                 System.out.println("--------------------------");
                 break;
             }
+        }else
+          System.out.println("Введите целое число.");
+           scanner.nextLine();
         }
-
-
     }
 
     private static boolean isItPossibleToAdd(CartService cartService, long id){

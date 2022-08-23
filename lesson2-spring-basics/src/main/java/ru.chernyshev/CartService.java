@@ -29,6 +29,10 @@ public class CartService {
         cartMap.remove(id);
     }
 
+    public Product findById(long id){
+        return cartMap.get(id);
+    }
+
 
 
 
