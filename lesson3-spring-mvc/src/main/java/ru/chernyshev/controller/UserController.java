@@ -23,6 +23,12 @@ public class UserController {
         return "user";
     }
 
+    @GetMapping("/add")
+    public String addUser(Model model) {
+        model.addAttribute("user", new User(""));
+        return "user_form";
+    }
+
     @GetMapping("/{id}")
     public String form(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userRepository.findById(id));
@@ -31,9 +37,14 @@ public class UserController {
 
     @PostMapping
     public String saveUser(User user) {
-        userRepository.update(user);
+        userRepository.addAndUpdate(user);
         return "redirect:/user";
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteUser(User user) {
+        userRepository.delete(user.getId());
+        return "redirect:/user";
+    }
 
 }

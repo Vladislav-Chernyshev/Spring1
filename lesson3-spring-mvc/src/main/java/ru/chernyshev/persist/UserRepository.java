@@ -36,8 +36,15 @@ public class UserRepository {
         user.setId(id);
         userMap.put(id, user);
     }
-    public void update(User user) {
-        userMap.put(user.getId(), user);
+
+    public void addAndUpdate(User user){
+        if (user.getId() == null) {
+            long id = identity.incrementAndGet();
+            user.setId(id);
+            userMap.put(id, user);
+        }else {
+            userMap.put(user.getId(), user);
+        }
     }
     public void delete(long id) {
         userMap.remove(id);
