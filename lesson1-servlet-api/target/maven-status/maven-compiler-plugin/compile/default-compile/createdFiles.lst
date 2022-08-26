@@ -1,7 +1,7 @@
 ru\chernyshev\ProductNumberServlet.class
-ru\chernyshev\products\Product.class
+ru\chernyshev\persist\ProductRepository.class
 ru\chernyshev\FirstServlet.class
-ru\chernyshev\products\ProductRepository.class
+ru\chernyshev\persist\Product.class
 ru\chernyshev\CalcServlet.class
 ru\chernyshev\EncodingFilter.class
 ru\chernyshev\BootstrapListener.class
