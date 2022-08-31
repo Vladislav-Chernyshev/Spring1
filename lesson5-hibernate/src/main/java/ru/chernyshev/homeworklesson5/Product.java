@@ -1,4 +1,4 @@
-package ru.chernyshev.model.homework;
+package ru.chernyshev.homeworklesson5;
 
 import jakarta.persistence.*;
 import lombok.Getter;
