@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.chernyshev.persist.Product;
 import ru.chernyshev.persist.ProductRepository;
-import ru.chernyshev.persist.User;
-import ru.chernyshev.persist.UserRepository;
 
 import javax.validation.Valid;
 

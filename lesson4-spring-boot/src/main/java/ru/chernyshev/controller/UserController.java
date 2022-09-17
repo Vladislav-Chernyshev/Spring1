@@ -10,6 +10,7 @@ import ru.chernyshev.persist.User;
 import ru.chernyshev.persist.UserRepository;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -19,9 +20,21 @@ public class UserController {
 
     private final UserRepository userRepository;
 
+//    @GetMapping
+//    public String listPage(@RequestParam Optional <String> usernameFilter, Model model) {
+//        if (usernameFilter.isEmpty() || usernameFilter.get().isBlank()){
+//            model.addAttribute("users", userRepository.findAll());
+//        }else {
+//            model.addAttribute("users", userRepository.usersByUsername("%" + usernameFilter.get() + "%"));
+//        }
+//        return "user";
+//    }
+
     @GetMapping
-    public String listPage(Model model) {
-        model.addAttribute("users", userRepository.findAll());
+    public String listPage(@RequestParam(required = false) String usernameFilter, Model model) {
+        usernameFilter = usernameFilter == null || usernameFilter.isBlank() ? null : "%" + usernameFilter.trim() + "%";
+        model.addAttribute("users", userRepository.usersByUsername(usernameFilter));
+
         return "user";
     }
 
@@ -39,20 +52,20 @@ public class UserController {
 
     @PostMapping
     public String saveUser(@Valid User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "user_form";
         }
-        if (!user.getPassword().equals(user.getMatchingPassword())){
+        if (!user.getPassword().equals(user.getMatchingPassword())) {
             bindingResult.rejectValue("matchingPassword", "Password not match");
             return "user_form";
         }
-        userRepository.addAndUpdate(user);
+        userRepository.save(user);
         return "redirect:/user";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteUser(User user) {
-        userRepository.delete(user.getId());
+        userRepository.deleteById(user.getId());
         return "redirect:/user";
     }
 
