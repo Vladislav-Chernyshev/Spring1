@@ -38,6 +38,53 @@
             <a class="btn btn-primary" th:href="@{/product/add}">Add Product</a>
         </div>
 
+        <div class="col-12 mt-3">
+            <form class="form-inline">
+                <div class="form-group mb-2 mr-2">
+                    <label for="productFilter" class="sr-only">Product filter</label>
+                    <input type="text" class="form-control" id="productFilter"
+                           name="productFilter" placeholder="Product filter">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Apply</button>
+            </form>
+        </div>
+
+        <div class="col-12 mt-3">
+            <form class="form-inline">
+                <div class="form-group mb-2 mr-2">
+                    <label for="minCostFilter" class="sr-only">Max cost filter</label>
+                    <input type="text" class="form-control" id="minCostFilter"
+                           name="minCostFilter" placeholder="Min cost">
+                    <input type="text" class="form-control" id="maxCostFilter"
+                           name="maxCostFilter" placeholder="Max cost">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Apply</button>
+            </form>
+        </div>
+
+        <div class="col-12 mt-3">
+            <form class="form-inline">
+                <div class="form-group mb-2 mr-2">
+                    <label for="costMinToMaxFilter" class="sr-only">Cost min to max filter</label>
+                    <input type="text" class="form-control" id="costMinToMaxFilter"
+                           name="costMinToMaxFilter" placeholder="Cost min to max filter">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Apply</button>
+            </form>
+        </div>
+
+        <div class="col-12 mt-3">
+            <form class="form-inline">
+                <div class="form-group mb-2 mr-2">
+                    <label for="costMaxToMinFilter" class="sr-only">Cost max to min filter</label>
+                    <input type="text" class="form-control" id="costMaxToMinFilter"
+                           name="costMaxToMinFilter" placeholder="Cost max to min filter">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Apply</button>
+            </form>
+        </div>
+
+
         <div class="col-12">
             <table class="table table-bordered my-2">
                 <thead>

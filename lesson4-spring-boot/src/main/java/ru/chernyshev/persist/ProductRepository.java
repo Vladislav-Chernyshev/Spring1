@@ -1,60 +1,44 @@
 package ru.chernyshev.persist;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
-public class ProductRepository {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    private final Map<Long, Product> productMap = new ConcurrentHashMap<>();
+    @Query(value = """
+            select * from products p
+            where :productFilter is null or p.title like :productFilter
+            """, nativeQuery = true)
+    List<Product> productsByTitle(String productFilter);
 
-    private final AtomicLong identity = new AtomicLong(0);
+    @Query(value = """
+            select * from products p
+            where :costFilter is null or p.cost = :costFilter
+            """, nativeQuery = true)
+    List<Product> productsByCost(Double costFilter);
 
-    @PostConstruct
-    public void init() {
-        this.insert(new Product("Bread", 20.00, 5));
-        this.insert(new Product("Bread1", 30.00, 3));
-        this.insert(new Product("Bread2", 40.00, 6));
-        this.insert(new Product("Bread3", 50.00, 1));
-        this.insert(new Product("Bread4", 60.00, 6));
-    }
+    @Query(value = """
+            select * from products p
+            where p.cost >= :minCostFilter and p.cost <= :maxCostFilter
+            order by p.cost desc
+            """, nativeQuery = true)
+    List<Product> productsSortMinAndMax(Double minCostFilter, Double maxCostFilter);
 
-    public List<Product> findAll() {
-        return new ArrayList<>(productMap.values());
-    }
+    @Query(value = """
+            select * from products p
+            where p.cost >= :costMinToMaxFilter
+            order by p.cost asc
+            """, nativeQuery = true)
+    List<Product> minToMaxSort(Double costMinToMaxFilter);
 
-    public Product findById(long id) {
-        return productMap.get(id);
-    }
-
-    public void insert(Product product) {
-        long id = identity.incrementAndGet();
-        product.setId(id);
-        productMap.put(product.getId(), product);
-    }
-
-    public void addAndUpdate(Product product) {
-        if (product.getId() == null) {
-            long id = identity.incrementAndGet();
-            product.setId(id);
-            productMap.put(id, product);
-        } else {
-            productMap.put(product.getId(), product);
-        }
-    }
-
-    public void delete(long id) {
-        productMap.remove(id);
-    }
-
-    public Map<Long, Product> getProductMap() {
-        return productMap;
-    }
+    @Query(value = """
+            select * from products p
+            where p.cost <= :costMaxToMinFilter
+            order by p.cost desc
+            """, nativeQuery = true)
+    List<Product> maxToMinSort(Double costMaxToMinFilter);
 }
