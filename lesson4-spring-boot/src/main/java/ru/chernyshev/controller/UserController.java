@@ -1,11 +1,13 @@
 package ru.chernyshev.controller;
 
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.chernyshev.persist.QUser;
 import ru.chernyshev.persist.User;
 import ru.chernyshev.persist.UserRepository;
 
@@ -30,13 +32,37 @@ public class UserController {
 //        return "user";
 //    }
 
+//    @GetMapping
+//    public String listPage(@RequestParam(required = false) String usernameFilter,
+//                           @RequestParam(required = false) String emailFilter,
+//                           Model model) {
+//        usernameFilter = usernameFilter == null || usernameFilter.isBlank() ? null : "%" + usernameFilter.trim() + "%";
+//        emailFilter = emailFilter == null || emailFilter.isBlank() ? null : "%" + emailFilter.trim() + "%";
+//        model.addAttribute("users", userRepository.usersByUsername(usernameFilter, emailFilter));
+//
+//        return "user";
+//    }
+
     @GetMapping
-    public String listPage(@RequestParam(required = false) String usernameFilter, Model model) {
-        usernameFilter = usernameFilter == null || usernameFilter.isBlank() ? null : "%" + usernameFilter.trim() + "%";
-        model.addAttribute("users", userRepository.usersByUsername(usernameFilter));
+    public String listPage(@RequestParam(required = false) String usernameFilter,
+                           @RequestParam(required = false) String emailFilter,
+                           Model model) {
+        QUser user = QUser.user;
+        BooleanBuilder predicate = new BooleanBuilder();
+
+        if (usernameFilter != null && !usernameFilter.isBlank()){
+            predicate.and(user.username.contains(usernameFilter.trim()));
+        }
+
+        if (emailFilter != null && !emailFilter.isBlank()){
+            predicate.and(user.email.contains(emailFilter.trim()));
+        }
+
+        model.addAttribute("users", userRepository.findAll(predicate));
 
         return "user";
     }
+
 
     @GetMapping("/add")
     public String addUser(Model model) {
