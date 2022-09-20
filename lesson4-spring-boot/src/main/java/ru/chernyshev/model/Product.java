@@ -1,4 +1,4 @@
-package ru.chernyshev.persist;
+package ru.chernyshev.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

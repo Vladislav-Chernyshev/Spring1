@@ -7,12 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.chernyshev.persist.QUser;
-import ru.chernyshev.persist.User;
-import ru.chernyshev.persist.UserRepository;
+import ru.chernyshev.model.dto.UserDto;
+import ru.chernyshev.model.User;
+import ru.chernyshev.repository.UserRepository;
+import ru.chernyshev.service.UserService;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService service;
 
 //    @GetMapping
 //    public String listPage(@RequestParam Optional <String> usernameFilter, Model model) {
@@ -47,18 +47,9 @@ public class UserController {
     public String listPage(@RequestParam(required = false) String usernameFilter,
                            @RequestParam(required = false) String emailFilter,
                            Model model) {
-        QUser user = QUser.user;
-        BooleanBuilder predicate = new BooleanBuilder();
 
-        if (usernameFilter != null && !usernameFilter.isBlank()){
-            predicate.and(user.username.contains(usernameFilter.trim()));
-        }
 
-        if (emailFilter != null && !emailFilter.isBlank()){
-            predicate.and(user.email.contains(emailFilter.trim()));
-        }
-
-        model.addAttribute("users", userRepository.findAll(predicate));
+        model.addAttribute("users", service.findAllByFilter(usernameFilter, emailFilter));
 
         return "user";
     }
@@ -66,18 +57,18 @@ public class UserController {
 
     @GetMapping("/add")
     public String addUser(Model model) {
-        model.addAttribute("user", new User(""));
+        model.addAttribute("user", new UserDto());
         return "user_form";
     }
 
     @GetMapping("/{id}")
     public String form(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userRepository.findById(id));
+        model.addAttribute("user", service.findUserById(id));
         return "user_form";
     }
 
     @PostMapping
-    public String saveUser(@Valid User user, BindingResult bindingResult) {
+    public String saveUser(@Valid @ModelAttribute("user") UserDto user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "user_form";
         }
@@ -85,13 +76,21 @@ public class UserController {
             bindingResult.rejectValue("matchingPassword", "Password not match");
             return "user_form";
         }
-        userRepository.save(user);
+        service.save(user);
         return "redirect:/user";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteUser(User user) {
-        userRepository.deleteById(user.getId());
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute("user") UserDto user) {
+        service.save(user);
+        return "redirect:/user";
+    }
+
+
+
+    @DeleteMapping("{id}")
+    public String deleteUserById(User user) {
+        service.deleteUserById(user.getId());
         return "redirect:/user";
     }
 
