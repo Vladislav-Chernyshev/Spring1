@@ -6,7 +6,7 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context.xsd">
 
-<!--    <bean id="userRepository" class="ru.chernyshev.persist.UserRepository"/>-->
+<!--    <bean id="userRepository" class="ru.chernyshev.repository.UserRepository"/>-->
 <!--    <bean id="userService" class="ru.chernyshev.UserService">-->
 <!--        <constructor-arg ref="userRepository"/>-->
 <!--    </bean>-->

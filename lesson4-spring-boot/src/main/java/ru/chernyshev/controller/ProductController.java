@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.chernyshev.persist.Product;
-import ru.chernyshev.persist.ProductRepository;
+import ru.chernyshev.model.Product;
+import ru.chernyshev.repository.ProductRepository;
 
 import javax.validation.Valid;
 
