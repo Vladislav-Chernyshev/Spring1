@@ -9,10 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.chernyshev.model.dto.UserDto;
 import ru.chernyshev.model.User;
-import ru.chernyshev.repository.UserRepository;
 import ru.chernyshev.service.UserService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -46,10 +46,14 @@ public class UserController {
     @GetMapping
     public String listPage(@RequestParam(required = false) String usernameFilter,
                            @RequestParam(required = false) String emailFilter,
+                           @RequestParam(required = false) Optional<Integer> page,
+                           @RequestParam(required = false) Optional<Integer> size,
                            Model model) {
+        Integer pageValue = page.orElse(1) - 1;
+        Integer sizeValue = size.orElse(3);
 
 
-        model.addAttribute("users", service.findAllByFilter(usernameFilter, emailFilter));
+        model.addAttribute("users", service.findAllByFilter(usernameFilter, emailFilter, pageValue, sizeValue));
 
         return "user";
     }
@@ -85,7 +89,6 @@ public class UserController {
         service.save(user);
         return "redirect:/user";
     }
-
 
 
     @DeleteMapping("{id}")
