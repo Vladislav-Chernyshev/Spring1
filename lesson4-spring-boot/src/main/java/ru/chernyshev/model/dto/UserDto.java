@@ -1,5 +1,6 @@
 package ru.chernyshev.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class UserDto {
     @Pattern(regexp = "^(?=.*?[0-9])(?=.*?[A-Z]).{8,}$", message = "Password too simple")
     private String password;
 
+    @JsonIgnore
     private String matchingPassword;
 
     public UserDto(Long id, String username, String email, String password) {
