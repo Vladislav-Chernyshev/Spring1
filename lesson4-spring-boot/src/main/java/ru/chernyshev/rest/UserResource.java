@@ -46,7 +46,11 @@ public class UserResource {
 
     @PutMapping
     public UserDto updateUser(@RequestBody UserDto user) {
-        service.save(user);
+        try{
+            service.save(user);
+        } catch (RuntimeException e){
+            System.out.println("e.getMessage() = " + e.getMessage());
+        }
         return user;
     }
 
