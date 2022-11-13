@@ -38,10 +38,20 @@ public class UserResource {
         return allByFilter;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/id")
     public UserDto form(@PathVariable("id") long id, Model model) {
         UserDto userDto = service.findUserById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         return userDto;
+    }
+
+    @PutMapping
+    public UserDto updateUser(@RequestBody UserDto user) {
+        try{
+            service.save(user);
+        } catch (RuntimeException e){
+            System.out.println("e.getMessage() = " + e.getMessage());
+        }
+        return user;
     }
 
     @PostMapping
