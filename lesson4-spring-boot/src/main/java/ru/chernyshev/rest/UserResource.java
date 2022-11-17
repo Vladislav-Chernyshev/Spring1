@@ -4,17 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.chernyshev.model.User;
 import ru.chernyshev.model.dto.UserDto;
 import ru.chernyshev.service.UserService;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("api/v1/user")
