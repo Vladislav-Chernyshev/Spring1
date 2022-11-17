@@ -2,14 +2,17 @@ package ru.chernyshev.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.chernyshev.model.dto.UserDto;
 import ru.chernyshev.model.User;
+import ru.chernyshev.service.RoleService;
 import ru.chernyshev.service.UserService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -19,7 +22,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService service;
+    private final UserService userService;
+    private final RoleService roleService;
 
 //    @GetMapping
 //    public String listPage(@RequestParam Optional <String> usernameFilter, Model model) {
@@ -54,7 +58,7 @@ public class UserController {
         String sortFieldValue = sortField.filter(s -> !s.isBlank()).orElse("id");
 
 
-        model.addAttribute("users", service.findAllByFilter(usernameFilter, emailFilter, pageValue, sizeValue, sortFieldValue));
+        model.addAttribute("users", userService.findAllByFilter(usernameFilter, emailFilter, pageValue, sizeValue, sortFieldValue));
 
         return "user";
     }
@@ -62,16 +66,21 @@ public class UserController {
 
     @GetMapping("/add")
     public String addUser(Model model) {
+        model.addAttribute("roles", roleService.findAll());
         model.addAttribute("user", new UserDto());
         return "user_form";
     }
 
+    @Secured("ROLE_SUPER_ADMIN")
     @GetMapping("/{id}")
     public String form(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", service.findUserById(id));
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("user", userService.findUserById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found")));
         return "user_form";
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public String saveUser(@Valid @ModelAttribute("user") UserDto user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -81,20 +90,20 @@ public class UserController {
             bindingResult.rejectValue("matchingPassword", "Password not match");
             return "user_form";
         }
-        service.save(user);
+        userService.save(user);
         return "redirect:/user";
     }
 
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") UserDto user) {
-        service.save(user);
+        userService.save(user);
         return "redirect:/user";
     }
 
 
     @DeleteMapping("{id}")
     public String deleteUserById(User user) {
-        service.deleteUserById(user.getId());
+        userService.deleteUserById(user.getId());
         return "redirect:/user";
     }
 
